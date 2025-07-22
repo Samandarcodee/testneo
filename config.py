@@ -1,0 +1,7 @@
+BOT_TOKEN = "8055605119:AAE70oxV0zoeWGAjUzGPB-2Ui9ePXPQ9LMU"
+ADMIN_ID = 786171158  # Samandar:)
+CHANNEL_ID = "@EU7csPyzqahiYzVi"  # Kanal username
+CARD_NUMBER = "9860 0121 0612 4071"
+PAY_AMOUNT = 30000
+CARD_OWNER = "Xasanov Hamidulla"
+BANK_NAME = "Ipateka bank" 
