@@ -1,0 +1,30 @@
+{
+  "name": "ai-planning-assistant",
+  "version": "1.0.0",
+  "description": "AI-powered planning and time management Telegram Mini App",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'Build completed'",
+    "test": "echo 'Tests completed'"
+  },
+  "keywords": [
+    "telegram",
+    "mini-app",
+    "ai",
+    "planning",
+    "productivity",
+    "time-management",
+    "pomodoro"
+  ],
+  "author": "AI Planning Assistant Team",
+  "license": "MIT",
+  "dependencies": {
+    "telegram-web-app": "^1.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

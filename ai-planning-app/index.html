@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Planning Assistant</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>🤖 AI Planning Assistant</h1>
+            <p>Kuningizni AI yordamida rejalashtiring</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-btn active" data-tab="dashboard">🏠 Dashboard</button>
+            <button class="nav-btn" data-tab="tasks">📝 Vazifalar</button>
+            <button class="nav-btn" data-tab="goals">🎯 Maqsadlar</button>
+            <button class="nav-btn" data-tab="timer">⏰ Timer</button>
+            <button class="nav-btn" data-tab="ai">🤖 AI Yordam</button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Bugungi Vazifalar</h3>
+                    <div class="stat-number" id="today-tasks">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Bajarilgan</h3>
+                    <div class="stat-number" id="completed-tasks">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Fokus Vaqti</h3>
+                    <div class="stat-number" id="focus-time">0m</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Maqsadlar</h3>
+                    <div class="stat-number" id="active-goals">0</div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h3>Tezkor Amallar</h3>
+                <button class="action-btn" onclick="addQuickTask()">+ Vazifa Qo'shish</button>
+                <button class="action-btn" onclick="startFocusSession()">🎯 Fokus Sessiyasi</button>
+                <button class="action-btn" onclick="askAI()">🤖 AI Tavsiya</button>
+            </div>
+
+            <div class="recent-tasks">
+                <h3>So'nggi Vazifalar</h3>
+                <div id="recent-tasks-list">
+                    <!-- Tasks will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tasks Tab -->
+        <div id="tasks" class="tab-content">
+            <div class="task-input">
+                <input type="text" id="task-input" placeholder="Yangi vazifa qo'shing...">
+                <button onclick="addTask()">Qo'shish</button>
+            </div>
+            <div class="task-filters">
+                <button class="filter-btn active" data-filter="all">Barchasi</button>
+                <button class="filter-btn" data-filter="pending">Kutilmoqda</button>
+                <button class="filter-btn" data-filter="completed">Bajarilgan</button>
+            </div>
+            <div id="tasks-list" class="tasks-list">
+                <!-- Tasks will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Goals Tab -->
+        <div id="goals" class="tab-content">
+            <div class="goal-input">
+                <input type="text" id="goal-input" placeholder="Yangi maqsad qo'shing...">
+                <select id="goal-priority">
+                    <option value="low">Past</option>
+                    <option value="medium">O'rta</option>
+                    <option value="high">Yuqori</option>
+                </select>
+                <button onclick="addGoal()">Qo'shish</button>
+            </div>
+            <div id="goals-list" class="goals-list">
+                <!-- Goals will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Timer Tab -->
+        <div id="timer" class="tab-content">
+            <div class="timer-container">
+                <div class="timer-display" id="timer-display">25:00</div>
+                <div class="timer-controls">
+                    <button id="timer-start" onclick="startTimer()">Boshlash</button>
+                    <button id="timer-pause" onclick="pauseTimer()" disabled>Pause</button>
+                    <button id="timer-reset" onclick="resetTimer()">Qayta</button>
+                </div>
+                <div class="timer-modes">
+                    <button class="mode-btn active" data-mode="pomodoro">Pomodoro (25m)</button>
+                    <button class="mode-btn" data-mode="short-break">Qisqa Dam (5m)</button>
+                    <button class="mode-btn" data-mode="long-break">Uzoq Dam (15m)</button>
+                </div>
+            </div>
+            <div class="timer-stats">
+                <h3>Bugungi Sessiyalar</h3>
+                <div id="session-stats">
+                    <p>Pomodoro: <span id="pomodoro-count">0</span></p>
+                    <p>Jami Vaqt: <span id="total-time">0m</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Assistant Tab -->
+        <div id="ai" class="tab-content">
+            <div class="ai-chat">
+                <div id="ai-messages" class="ai-messages">
+                    <div class="ai-message">
+                        <div class="message-content">
+                            <strong>AI Yordamchi:</strong> Salom! Bugun qanday ishlar bilan band bo'lishni rejalashtirmoqchisiz? Men sizga yordam beraman!
+                        </div>
+                    </div>
+                </div>
+                <div class="ai-input">
+                    <input type="text" id="ai-input" placeholder="AI yordamchiga savol bering...">
+                    <button onclick="sendAIMessage()">Yuborish</button>
+                </div>
+            </div>
+            <div class="ai-suggestions">
+                <h3>AI Tavsiyalari</h3>
+                <div id="ai-suggestions-list">
+                    <button class="suggestion-btn" onclick="askAISuggestion('productivity')">Samaradorlikni oshirish</button>
+                    <button class="suggestion-btn" onclick="askAISuggestion('time-management')">Vaqt boshqaruvi</button>
+                    <button class="suggestion-btn" onclick="askAISuggestion('goal-setting')">Maqsad belgilash</button>
+                    <button class="suggestion-btn" onclick="askAISuggestion('motivation')">Motivatsiya</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
